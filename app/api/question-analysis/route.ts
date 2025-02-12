@@ -10,7 +10,10 @@ export async function GET(request: Request) {
   const filePath = path.join(process.cwd(), "public", "survey_data.csv")
   const fileContents = await fs.readFile(filePath, "utf8")
 
-  const results = Papa.parse(fileContents, { header: true })
+  const results = Papa.parse(fileContents, {
+    header: true,
+    transform: (value) => value.trim() // Trim all values during parsing
+  })
   const data = results.data
 
   const questionData = processQuestionData(data, question)
@@ -23,11 +26,23 @@ function processQuestionData(data: any[], question: string | null) {
 
   const answerCounts: { [key: string]: number } = {}
   data.forEach((row) => {
-    const answer = row[question]
-    answerCounts[answer] = (answerCounts[answer] || 0) + 1
+    const answer = row[question]?.trim() || "Not Specified"
+    if (answer.includes(',')) {
+      // Handle multiple answers separated by commas
+      answer.split(',')
+        .map((a: string) => a.trim())
+        .filter((a: any) => a)
+        .forEach((a: string | number) => {
+          answerCounts[a] = (answerCounts[a] || 0) + 1
+        })
+    } else {
+      answerCounts[answer] = (answerCounts[answer] || 0) + 1
+    }
   })
 
-  const sortedAnswers = Object.entries(answerCounts).sort((a, b) => b[1] - a[1])
+  const sortedAnswers = Object.entries(answerCounts)
+    .sort((a, b) => b[1] - a[1])
+    .filter(([answer]) => answer !== "Not Specified" && answer !== "")
 
   return {
     labels: sortedAnswers.map(([answer]) => answer),
@@ -52,7 +67,7 @@ function generateInsights(sortedAnswers: [string, number][]) {
   const total = sortedAnswers.reduce((sum, [, count]) => sum + count, 0)
   return sortedAnswers.map(([answer, count]) => {
     const percentage = ((count / total) * 100).toFixed(2)
-    return `${answer}: ${percentage}% (${count} responses)`
+    return `${answer.trim()}: ${percentage}% (${count} responses)`
   })
 }
 

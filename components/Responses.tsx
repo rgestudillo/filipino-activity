@@ -8,10 +8,6 @@ import { Button } from "@/components/ui/button"
 import { useState, useEffect } from "react"
 
 const headers = [
-    "Timestamp",
-    "Email Address",
-    "Sumasang-ayon ka bang lumahok sa sarbey na ito?",
-    "Pangalan (Name)",
     "Edad (Age)",
     "Kasarian (Sex)",
     "Paaralan (School)",
@@ -26,6 +22,15 @@ const headers = [
     "5. Sa iyong palagay, ano ang pinakamainam na gamitin na wika sa pamahalaan?",
     "6. Sa iyong palagay, ano ang pinakamainam na gamitin na wika sa paaralan?",
     "7. Sa iyong palagay, ano ang pinakamainam na gamitin na wika sa pakikipag-ugnayan sa kapwa Pilipino?"
+]
+
+// Hidden headers for parsing but not display
+const allHeaders = [
+    "Timestamp",
+    "Email Address",
+    "Sumasang-ayon ka bang lumahok sa sarbey na ito?",
+    "Pangalan (Name)",
+    ...headers
 ]
 
 function parseCSVLine(text: string): string[] {
@@ -54,7 +59,7 @@ function parseCSVLine(text: string): string[] {
         result.push(current.trim())
     }
 
-    return result
+    return result.map(value => value.trim())
 }
 
 export default function Responses() {
@@ -69,20 +74,20 @@ export default function Responses() {
         fetch('/survey_data.csv')
             .then(response => response.text())
             .then(csvText => {
-                // Split by newlines and remove empty lines
-                const lines = csvText.split('\n').filter(line => line.trim())
+                const lines = csvText.split('\n')
+                    .map(line => line.trim())
+                    .filter(line => line)
 
-                // Skip header row and parse each line
                 const parsedData = lines.slice(1).map(line => {
                     const values = parseCSVLine(line)
-                    return headers.reduce((obj, header, index) => {
-                        // Clean up the value and handle quotes
+                    return allHeaders.reduce((obj, header, index) => {
                         let value = values[index] || ''
                         value = value.replace(/^"|"$/g, '').trim()
                         obj[header] = value
                         return obj
-                    }, {} as any)
+                    }, {} as Record<string, string>)
                 })
+
                 setData(parsedData)
             })
             .catch(error => {

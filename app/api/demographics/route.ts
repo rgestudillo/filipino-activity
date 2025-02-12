@@ -7,7 +7,10 @@ export async function GET() {
   const filePath = path.join(process.cwd(), "public", "survey_data.csv")
   const fileContents = await fs.readFile(filePath, "utf8")
 
-  const results = Papa.parse(fileContents, { header: true })
+  const results = Papa.parse(fileContents, {
+    header: true,
+    transform: (value) => value.trim() // Trim all values during parsing
+  })
   const data = results.data
 
   const ageData = processAgeData(data)
@@ -21,7 +24,7 @@ export async function GET() {
 function processAgeData(data: any[]) {
   const ageCounts: { [key: string]: number } = {}
   data.forEach((row) => {
-    const age = row["Edad (Age)"]
+    const age = row["Edad (Age)"]?.trim() || "Not Specified"
     ageCounts[age] = (ageCounts[age] || 0) + 1
   })
   return {
@@ -39,7 +42,7 @@ function processAgeData(data: any[]) {
 function processGenderData(data: any[]) {
   const genderCounts: { [key: string]: number } = {}
   data.forEach((row) => {
-    const gender = row["Kasarian (Sex)"]
+    const gender = row["Kasarian (Sex)"]?.trim() || "Not Specified"
     genderCounts[gender] = (genderCounts[gender] || 0) + 1
   })
   return {
@@ -57,7 +60,7 @@ function processGenderData(data: any[]) {
 function processEducationData(data: any[]) {
   const educationCounts: { [key: string]: number } = {}
   data.forEach((row) => {
-    const education = row["Education Level"]
+    const education = row["Education Level"]?.trim() || "Not Specified"
     educationCounts[education] = (educationCounts[education] || 0) + 1
   })
   return {
@@ -75,7 +78,7 @@ function processEducationData(data: any[]) {
 function processSchoolData(data: any[]) {
   const schoolCounts: { [key: string]: number } = {}
   data.forEach((row) => {
-    const school = row["Paaralan (School)"]
+    const school = row["Paaralan (School)"]?.trim() || "Not Specified"
     schoolCounts[school] = (schoolCounts[school] || 0) + 1
   })
   const sortedSchools = Object.entries(schoolCounts)
