@@ -1,57 +1,28 @@
 "use client"
 
-import { useEffect, useState } from "react"
-import { Bar } from "react-chartjs-2"
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js"
-
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
+import { motion } from "framer-motion"
+import DemographicAnalysis from "./DemographicAnalysis"
+import { Card, CardContent } from "@/components/ui/card"
 
 export default function Demographics() {
-  const [data, setData] = useState<any>(null)
-
-  useEffect(() => {
-    fetch("/api/demographics")
-      .then((res) => res.json())
-      .then((data) => setData(data))
-  }, [])
-
-  if (!data) return <div>Loading...</div>
-
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: "top" as const,
-      },
-      title: {
-        display: true,
-        text: "Demographics",
-      },
-    },
-  }
-
   return (
-    <div>
-      <h2 className="text-2xl font-bold mb-4">Demographics of Participants</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <h3 className="text-xl font-semibold mb-2">Age Distribution</h3>
-          <Bar options={options} data={data.ageData} />
-        </div>
-        <div>
-          <h3 className="text-xl font-semibold mb-2">Gender Distribution</h3>
-          <Bar options={options} data={data.genderData} />
-        </div>
-        <div>
-          <h3 className="text-xl font-semibold mb-2">Education Level</h3>
-          <Bar options={options} data={data.educationData} />
-        </div>
-        <div>
-          <h3 className="text-xl font-semibold mb-2">Top Schools</h3>
-          <Bar options={options} data={data.schoolData} />
-        </div>
-      </div>
-    </div>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
+      <Card className="border-none shadow-lg bg-white/80 backdrop-blur-sm dark:bg-slate-800/80">
+        <CardContent className="p-8">
+          <h2 className="text-3xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
+            Ang mga Tagapagsalaysay
+          </h2>
+          <p className="text-lg text-gray-600 dark:text-gray-400 mb-8">
+            Kilalanin ang iba't ibang tinig na humuhubog sa ating kuwento - mula sa mga mag-aaral hanggang sa mga propesyonal sa buong Pilipinas.
+          </p>
+          <DemographicAnalysis />
+        </CardContent>
+      </Card>
+    </motion.div>
   )
 }
 

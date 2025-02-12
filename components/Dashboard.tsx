@@ -21,53 +21,53 @@ export default function Dashboard() {
 
   const steps = [
     {
-      title: "Our Participants",
-      description: "Let's meet the diverse group of Filipinos who shared their language experiences.",
+      title: "Ang mga Tagapagsalaysay",
+      description: "Kilalanin ang iba't ibang tinig na humuhubog sa ating kuwento - mula sa mga mag-aaral hanggang sa mga propesyonal sa buong Pilipinas.",
       component: <DemographicAnalysis />,
     },
     {
-      title: "The National Language",
-      description: "What do Filipinos consider as their national language?",
+      title: "Unang Kabanata: Wikang Pambansa",
+      description: "Ano nga ba ang Wikang Pambansa ng Pilipinas?",
       component: <QuestionAnalysis questionNumber={1} data={data} />,
     },
     {
-      title: "Language in Government",
-      description: "Explore the languages used in government offices across the Philippines.",
+      title: "Ikalawang Kabanata: Wika sa Pamahalaan",
+      description: "Ano ang wikang ginagamit sa mga tanggapan ng pamahalaan sa inyong lugar?",
       component: <QuestionAnalysis questionNumber={2} data={data} />,
     },
     {
-      title: "Language in Education",
-      description: "Discover the languages used in Philippine classrooms from elementary to college.",
+      title: "Ikatlong Kabanata: Wika sa Edukasyon",
+      description: "Batay sa iyong mga nakuhang sabjek mula elementarya hanggang kolehiyo, ano ang ginagamit na wikang panturo?",
       component: <QuestionAnalysis questionNumber={3} data={data} />,
     },
     {
-      title: "Bridging Language Barriers",
-      description: "How do Filipinos communicate when they don't share the same first language?",
+      title: "Ikaapat na Kabanata: Tulay sa Komunikasyon",
+      description: "Kapag may kausap kang Pilipino na hindi mo katulad ang unang wika, anong wika ang ginagamit ninyo upang magkaintindihan?",
       component: <QuestionAnalysis questionNumber={4} data={data} />,
     },
     {
-      title: "Ideal Government Language",
-      description: "What language do Filipinos believe is best for government use?",
+      title: "Ikalimang Kabanata: Wika sa Pamahalaan",
+      description: "Sa iyong palagay, ano ang pinakamainam na gamitin na wika sa pamahalaan?",
       component: <QuestionAnalysis questionNumber={5} data={data} />,
     },
     {
-      title: "Ideal School Language",
-      description: "What language do Filipinos prefer for education?",
+      title: "Ikaanim na Kabanata: Wika sa Paaralan",
+      description: "Sa iyong palagay, ano ang pinakamainam na gamitin na wika sa paaralan?",
       component: <QuestionAnalysis questionNumber={6} data={data} />,
     },
     {
-      title: "Connecting with Fellow Filipinos",
-      description: "Discover the preferred language for communication among Filipinos.",
+      title: "Ikapitong Kabanata: Wika ng Pakikipag-ugnayan",
+      description: "Sa iyong palagay, ano ang pinakamainam na gamitin na wika sa pakikipag-ugnayan sa kapwa Pilipino?",
       component: <QuestionAnalysis questionNumber={7} data={data} />,
     },
     {
-      title: "The Big Picture",
-      description: "Let's look at the overall trends and insights from our language journey.",
+      title: "Pangkalahatang Pananaw",
+      description: "Tingnan natin ang kabuuang resulta ng ating paglalakbay sa mundo ng wika.",
       component: <OverallAnalytics />,
     },
     {
-      title: "Individual Voices",
-      description: "Explore all the individual responses that make up our linguistic tapestry.",
+      title: "Mga Indibidwal na Tinig",
+      description: "Galugarin ang bawat sagot na bumubuo sa ating makukulay na tapiserya ng wika.",
       component: <AllResponses data={data} />,
     },
   ]
@@ -81,43 +81,61 @@ export default function Dashboard() {
   }
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
-      <Card className="w-full max-w-4xl mx-auto">
-        <CardContent className="p-6">
-          <motion.h2
-            className="text-3xl font-bold mb-2 text-blue-800"
-            key={currentStep}
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            {steps[currentStep].title}
-          </motion.h2>
-          <motion.p
-            className="text-lg mb-6 text-gray-600"
-            key={`desc-${currentStep}`}
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            {steps[currentStep].description}
-          </motion.p>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className="max-w-4xl mx-auto"
+    >
+      <Card className="border-none shadow-lg bg-white/80 backdrop-blur-sm dark:bg-slate-800/80">
+        <CardContent className="p-8">
           <motion.div
-            key={`content-${currentStep}`}
+            key={`step-${currentStep}`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
+            transition={{ duration: 0.5 }}
+            className="space-y-6"
           >
-            {steps[currentStep].component}
+            <div className="space-y-2">
+              <motion.h2
+                className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600"
+                layoutId="title"
+              >
+                {steps[currentStep].title}
+              </motion.h2>
+              <motion.p
+                className="text-lg text-gray-600 dark:text-gray-400"
+                layoutId="description"
+              >
+                {steps[currentStep].description}
+              </motion.p>
+            </div>
+
+            <div className="mt-8">
+              {steps[currentStep].component}
+            </div>
+
+            <div className="flex justify-between items-center pt-8 mt-8 border-t border-gray-200 dark:border-gray-700">
+              <Button
+                onClick={handlePrevious}
+                disabled={currentStep === 0}
+                variant="outline"
+                className="hover:bg-blue-50 dark:hover:bg-slate-700"
+              >
+                ← Nakaraang Kabanata
+              </Button>
+              <div className="text-sm text-gray-500">
+                {currentStep + 1} ng {steps.length}
+              </div>
+              <Button
+                onClick={handleNext}
+                disabled={currentStep === steps.length - 1}
+                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:opacity-90"
+              >
+                Susunod na Kabanata →
+              </Button>
+            </div>
           </motion.div>
-          <div className="flex justify-between mt-8">
-            <Button onClick={handlePrevious} disabled={currentStep === 0} variant="outline">
-              Previous
-            </Button>
-            <Button onClick={handleNext} disabled={currentStep === steps.length - 1}>
-              Next
-            </Button>
-          </div>
         </CardContent>
       </Card>
     </motion.div>

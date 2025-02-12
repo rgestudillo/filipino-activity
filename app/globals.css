@@ -4,19 +4,58 @@
 
 :root {
   --foreground-rgb: 0, 0, 0;
-  --background-rgb: 255, 255, 255;
+  --background: 255, 255, 255;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
-    --background-rgb: 0, 0, 0;
+    --background: 0, 0, 0;
   }
 }
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: rgb(var(--background-rgb));
+  background: rgb(var(--background));
+  min-height: 100vh;
+}
+
+/* Card styles */
+.card {
+  background: rgb(255, 255, 255);
+  border: 1px solid rgb(229, 231, 235);
+}
+
+.dark .card {
+  background: rgb(0, 0, 0);
+  border: 1px solid rgb(75, 85, 99);
+}
+
+/* Improved text contrast */
+.text-primary {
+  color: rgb(0, 0, 0);
+}
+
+.dark .text-primary {
+  color: rgb(255, 255, 255);
+}
+
+.text-secondary {
+  color: rgb(75, 85, 99);
+}
+
+.dark .text-secondary {
+  color: rgb(209, 213, 219);
+}
+
+/* Add smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Add a subtle transition to all elements */
+* {
+  transition: all 0.2s ease-in-out;
 }
 
 @layer utilities {

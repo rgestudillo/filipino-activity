@@ -5,12 +5,12 @@ export async function fetchAndParseCSV(url: string) {
   const csvText = await response.text()
 
   return new Promise<any[]>((resolve, reject) => {
-    Papa.parse(csvText, {
+    Papa.parse<any>(csvText, {
       header: true,
       complete: (results) => {
         resolve(results.data as any[])
       },
-      error: (error) => {
+      error: (error: Error) => {
         reject(error)
       },
     })
