@@ -5,16 +5,11 @@ import { Card, CardContent } from "@/components/ui/card"
 
 export default function Insights() {
     const insights = [
-        "80% ng mga kalahok ay gumagamit ng Filipino bilang pangunahing wika sa paaralan",
-        "Halos lahat ng mga respondente ay nagsabing Filipino ang Wikang Pambansa",
-        "Sa mga tanggapan ng pamahalaan, 65% ay gumagamit ng Filipino, 25% English, at 10% kombinasyon",
-        "90% ng mga guro ay nagtuturo gamit ang Filipino at English",
-        "Kapag nakikipag-usap sa ibang rehiyon, 75% ay gumagamit ng Filipino",
-        "Para sa pakikipag-ugnayan sa kapwa Pilipino, 85% ay mas pinipiling gumamit ng Filipino",
-        "70% ng mga mag-aaral ay mas komportableng matuto sa Filipino",
-        "Sa mga propesyonal na setting, 60% ay gumagamit ng kombinasyon ng Filipino at English",
-        "95% ay sumasang-ayon na mahalagang mapanatili ang mga katutubong wika",
-        "80% ay naniniwala na dapat palakasin ang pagtuturo ng Filipino sa paaralan"
+        "For elementary students, they answered TAGALOG as the language to use when conversing with other Filipinos who have different first language",
+        "For junior high school, ENGLISH is their answer",
+        "For senior high school and college, it VARIES",
+        "There is one respondent who answered TAGALOG to questions 2 - 6, and PILIPINO to question 1 who is from Metro Manila.Probably, because it is their primary language.",
+        "Majority of elementary students uses BISAYA to converse except when speaking to people who does not speak BISAYA.One of the possible influences could be the implementation of MTB is the Elementary curriculum."
     ]
 
     return (
